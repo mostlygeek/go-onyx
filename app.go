@@ -40,7 +40,10 @@ func main() {
 
         m["ip"] = req.RemoteAddr
         m["ua"] = req.Header.Get("User-Agent")
-        m["timestamp"] = int32(time.Now().Unix())
+
+        now := time.Now()
+        m["timestamp"] = int32(now.Unix())
+        m["date"] = fmt.Sprintf("%d-%02d-%02d", now.Year(), now.Month(), now.Day())
 
         b, err := json.Marshal(m)
         if err != nil {
@@ -55,8 +58,8 @@ func main() {
     go func() {
         for {
             /* log it out to disk here ... */
-            _ = <-logChan
-            //fmt.Println(string( <-logChan ))
+            //_ = <-logChan
+            fmt.Println(string( <-logChan ))
         }
     }()
 
